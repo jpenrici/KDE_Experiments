@@ -23,8 +23,8 @@ Item {
             SpinBox {
                 id: spinbox
                 from : 0
-                to   : 64
-                value: 5
+                to   : 1024
+                value: 4
                 editable: false
             }
         }

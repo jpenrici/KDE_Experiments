@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: LGPL-2.1-or-later
  */
 
-import QtQuick 2.1
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 
 import org.kde.plasma.components 3.0 as PC3
@@ -14,13 +14,10 @@ import org.kde.plasma.plasmoid 2.0
 Item {
     id: main
 
-    property bool wasExpanded : false
     property string textMemory     : "Memory Used [Total Memory GB]"
-    property string textMemoryUsed : "Memory Used  GB"
-    property string textMemoryTotal: "Total Memory GB"
-
-    Plasmoid.switchWidth : PlasmaCore.Units.gridUnit * 8
-    Plasmoid.switchHeight: PlasmaCore.Units.gridUnit * 8
+    property string textMemoryUsed : "?GB"
+    property string textMemoryTotal: "?GB"
+    property bool   alert: false
 
     Plasmoid.backgroundHints: PlasmaCore.Types.DefaultBackground | PlasmaCore.Types.ConfigurableBackground
 
@@ -29,22 +26,30 @@ Item {
     Plasmoid.toolTipMainText: "Simple Memory Viewer"
     Plasmoid.toolTipSubText : "Example"
 
-    Plasmoid.compactRepresentation: MouseArea {
-
-        Layout.minimumWidth   : PlasmaCore.units.iconSizes.medium
-        Layout.minimumHeight  : PlasmaCore.units.iconSizes.medium
-        Layout.preferredHeight: Layout.minimumHeight
-        Layout.maximumHeight  : Layout.minimumHeight
+    Plasmoid.compactRepresentation: Rectangle {
+        color: main.alert ? "#950000" : "#00674C"
 
         PC3.Label {
-            text: main.textMemory
+            id: label
+            Layout.minimumWidth : textMetrics.width
+            Layout.minimumHeight: textMetrics.height
+
+            text: textMetrics.text
+
+            font.pixelSize: plasmoid.configuration.fontSize * units.devicePixelRatio
+            horizontalAlignment: Text.AlignHCenter
+
+            TextMetrics {
+                id: textMetrics
+                font.family   : label.font.family
+                font.pixelSize: label.font.pixelSize
+                text: main.textMemory
+            }
         }
 
-        onClicked: {
-            if (mouse.button == Qt.LeftButton) {
-                wasExpanded = !wasExpanded
-                Plasmoid.expanded = wasExpanded
-            }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: plasmoid.expanded = !plasmoid.expanded
         }
     }
 
@@ -75,7 +80,7 @@ Item {
         id: timeSource
         engine: "time"   // plasmaengineexplorer
         connectedSources: ["Local"]
-        interval: 60000  // milliseconds
+        interval: 30000  // milliseconds
         onNewData: { process() }
     }
 
@@ -112,13 +117,10 @@ Item {
     function format(value) {
         const memArray = value.split(";")
         if (memArray.length > 1) {
-            main.textMemory      = i18n("[%1GB]", memArray[0])
+            main.textMemory      = i18n("%1GB", memArray[0])
             main.textMemoryUsed  = i18n("Memory Used : %1 GB", memArray[0])
             main.textMemoryTotal = i18n("Memory Total: %1 GB", memArray[1])
+            alert = (parseInt(memArray[0]) > plasmoid.configuration.memoryLimitAlert)
         }
-    }
-
-    function alert() {
-        // TO DO
     }
 }
