@@ -49,7 +49,10 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: plasmoid.expanded = !plasmoid.expanded
+            onClicked: { 
+                plasmoid.expanded = !plasmoid.expanded
+                process()
+            }
         }
     }
 
@@ -116,11 +119,13 @@ Item {
 
     function format(value) {
         const memArray = value.split(";")
+        var memoryUsed  = parseInt(memArray[0]) / (1024 * 1024)
+        var memoryTotal = parseInt(memArray[1]) / (1024 * 1024)
         if (memArray.length > 1) {
-            main.textMemory      = i18n("%1GB", memArray[0])
-            main.textMemoryUsed  = i18n("Memory Used : %1 GB", memArray[0])
-            main.textMemoryTotal = i18n("Memory Total: %1 GB", memArray[1])
-            alert = (parseInt(memArray[0]) > plasmoid.configuration.memoryLimitAlert)
+            main.textMemory      = i18n("%1GB", parseInt(memoryUsed))
+            main.textMemoryUsed  = i18n("Memory Used : %1 GB", memoryUsed.toPrecision(4))
+            main.textMemoryTotal = i18n("Memory Total: %1 GB", memoryTotal.toPrecision(4))
+            alert = (memoryUsed > plasmoid.configuration.memoryLimitAlert)
         }
     }
 }
