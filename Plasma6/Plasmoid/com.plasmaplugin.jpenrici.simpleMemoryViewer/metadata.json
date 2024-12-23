@@ -1,0 +1,41 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "jpenrici@gmail.com",
+                "Name":  "Juan Pablo Enrici"
+            }
+        ],
+        "BugReportUrl": "",
+        "Category": "Utilities",
+        "Description": "Memory viewer",
+        "Description[pt]": "Visualizador de memória",
+        "Description[pt_BR]": "Visualizador de memória",
+        "LongDescription": "Simple Plasma Plugin to view the memory used",
+        "LongDescription[pt]": "Simples Plasma Plugin para visualizar a memoria utilizada",
+        "LongDescription[pt_BR]": "Simples Plasma Plugin para visualizar a memoria utilizada",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ],
+        "Icon": "kde",
+        "Id": "com.plasmaplugin.jpenrici.simpleMemoryViewer",
+        "License": "LGPL-2.1+",
+        "Name": "Memory Viewer",
+        "Name[pt]": "Visualizador de Memória",
+        "Name[pt_BR]": "Visualizador de Memória",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "1.0.0",
+        "Website": ""
+    },
+    "Keywords": "memory",
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-NotificationArea": "true",
+    "X-Plasma-NotificationAreaCategory": "ApplicationStatus",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

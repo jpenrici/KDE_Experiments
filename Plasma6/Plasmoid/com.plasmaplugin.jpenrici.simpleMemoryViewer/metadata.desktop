@@ -1,0 +1,28 @@
+[Desktop Entry]
+Type=Service
+Icon=kde
+
+X-KDE-PluginInfo-Author=Juan Pablo Enrici
+X-KDE-PluginInfo-Email=jpenrici@gmail.com
+X-KDE-PluginInfo-Name=com.plasmaplugin.jpenrici.simpleMemoryViewer
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-Website=https://plasma.kde.org/
+X-KDE-PluginInfo-Category=Utilities
+X-KDE-PluginInfo-License=LGPL-2.1+
+X-KDE-PluginInfo-EnabledByDefault=true
+
+X-KDE-ServiceTypes=Plasma/Applet
+
+X-Plasma-API-Minimum-Version=6.0
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-NotificationArea=true
+X-Plasma-NotificationAreaCategory=SystemServices
+
+Name=Memory Viewer
+Name[pt]=Visualizador de memória
+Name[pt_BR]=Visualizador de memória
+
+Comment=Simple Plasma 6 Plugin to view the memory used
+Comment[pt]=Simples Plasma Plugin para visualizar a memoria utilizada
+Comment[pt_BR]=Simples Plasma Plugin para visualizar a memoria utilizada
