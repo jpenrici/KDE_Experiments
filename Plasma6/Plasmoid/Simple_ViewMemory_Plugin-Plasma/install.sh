@@ -17,7 +17,7 @@ log="log-install-$today"
 
 # Check if the environment is KDE Plasma.
 echo "Started [ $(date '+%Y-%m-%d %H:%M:%S') ]." | tee "$log"
-if [[ $DESKTOP_SESSION == "plasma" ]]; then
+if [[ $DESKTOP_SESSION == "plasma" ]] || [[ $DESKTOP_SESSION == "plasmax11" ]]; then
     echo "Desktop Session [$DESKTOP_SESSION]: ok!" | tee -a "$log"
 else
     echo "Desktop Session [$DESKTOP_SESSION]: error, plugin not recommended for this environment!" | tee -a "$log"
