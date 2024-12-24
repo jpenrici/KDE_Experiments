@@ -19,7 +19,7 @@ Item {
     ColumnLayout {
         RowLayout {
             Label {
-                text: i18n("Alert when reaching:")
+                text: i18n("Alert when reaching: ")
             }
             SpinBox {
                 id: spinbox

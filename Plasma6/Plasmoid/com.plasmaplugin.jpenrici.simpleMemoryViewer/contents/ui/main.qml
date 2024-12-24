@@ -15,14 +15,14 @@ import org.kde.ksysguard.sensors as Sensors
 PlasmoidItem {
     id: main
 
-    property string textMemory     : "?GB" // "Memory Used [Total Memory GB]"
+    property string textMemory     : "..." // "Memory Used [Total Memory GB]"
     property string textMemoryUsed : "?GB"
     property string textMemoryTotal: "?GB"
     property bool   alert: false
 
     readonly property int pause: 30000     // 30 seconds
 
-    preferredRepresentation: compactRepresentation
+    preferredRepresentation: compactRepresentation | fullRepresentation
 
     toolTipMainText: "Simple Memory Viewer"
     toolTipSubText : "Example"
@@ -40,6 +40,7 @@ PlasmoidItem {
     }
 
     compactRepresentation: Rectangle {
+        id: compactRep
         color: main.alert ? "#950000" : "#00674C"
 
         width : label.width  + (Kirigami.Units.smallSpacing * 2)
@@ -70,13 +71,15 @@ PlasmoidItem {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                Plasmoid.expanded = !Plasmoid.expanded
+                expanded = !expanded
                 updateMemoryText()
             }
         }
     }
 
     fullRepresentation: Item {
+        id: fullRep
+
         Layout.minimumHeight  : Kirigami.Units.gridUnit * 8
         Layout.minimumWidth   : Kirigami.Units.gridUnit * 8
         Layout.preferredHeight: Kirigami.Units.gridUnit * 21
@@ -107,6 +110,7 @@ PlasmoidItem {
                 Layout.fillHeight: true
             }
         }
+
     }
 
     Timer {
@@ -117,17 +121,17 @@ PlasmoidItem {
         onTriggered: updateMemoryText()
     }
 
-    Component.onCompleted: {
-        updateMemoryText()
-    }
-
     function updateMemoryText() {
-        const memoryUsed  = memoryUsedSensor.value  / (1024 * 1024 * 1024)  // Convert to GB
-        const memoryTotal = memoryTotalSensor.value / (1024 * 1024 * 1024)
+        let memoryUsed  = memoryUsedSensor.value  / (1024 * 1024 * 1024)  // Convert to GB
+        let memoryTotal = memoryTotalSensor.value / (1024 * 1024 * 1024)
+        if (isNaN(memoryUsedSensor.value))  { memoryUsed  = 0 }
+        if (isNaN(memoryTotalSensor.value)) { memoryTotal = 0 }
 
         main.textMemory      = i18n("%1GB", Math.round(memoryUsed))
         main.textMemoryUsed  = i18n("Memory Used : %1 GB", memoryUsed.toPrecision(4))
         main.textMemoryTotal = i18n("Memory Total: %1 GB", memoryTotal.toPrecision(4))
         alert = (memoryUsed > Plasmoid.configuration.memoryLimitAlert)
+
+        console.log(main.textMemoryUsed)
     }
 }
